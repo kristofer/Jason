@@ -114,7 +114,7 @@
 - (NSString *)stringRepresentation {
 	SBJsonWriter *parser = [SBJsonWriter new];
 	parser.humanReadable = YES;
-	parser.sortKeys = YES;
+	parser.sortKeys = NO;
 	NSString *string = [parser stringWithObject:self.contents];
 	return string;
 }
@@ -166,6 +166,7 @@
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
 	NSError *error = nil;
 	NSString *string = [self stringRepresentation];
+    NSLog(@"%@", string);
 	[string writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
 	if (error) {
 		if (outError) *outError = error;
