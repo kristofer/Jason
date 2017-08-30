@@ -121,13 +121,18 @@
 
 - (void)writeChildrenOf:(NSTreeNode *)parentNode toObject:(id)object {
 	NodeObject *parentObject = [parentNode representedObject];
+    //long nodeCount = 0;
 	
 	if (parentObject.type == kNodeObjectTypeArray) {
 		NSMutableArray *array = object;
+        [array removeAllObjects];
 		for (NSTreeNode *childNode in [parentNode childNodes]) {
 			// Add the child object...
 			NodeObject *childObject = [childNode representedObject];
-			[array addObject:childObject.value];
+            if ([array containsObject:childObject.value] == false) {
+                //nodeCount++;  NSLog(@"%ld", (long)nodeCount);
+                [array addObject:childObject.value];
+            }
 			
 			// ...and recursively add its children
 			[self writeChildrenOf:childNode toObject:childObject.value];
@@ -135,6 +140,7 @@
 	}
 	else if (parentObject.type == kNodeObjectTypeDictionary) {
 		NSMutableDictionary *dict = object;
+        [dict removeAllObjects];
 		for (NSTreeNode *childNode in [parentNode childNodes]) {
 			// Add the child object...
 			NodeObject *childObject = [childNode representedObject];
